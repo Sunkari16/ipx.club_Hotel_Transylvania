@@ -42,6 +42,15 @@ const SchemaTypes = {
         required: false,
         enum: values,
     }),
+    MANDATORY_TIMESTAMP: {
+        type: Date,
+        required: true,
+    },
+    MANDATORY_TIMESTAMP_DEFAULT_NOW: {
+        type: Date,
+        required: true,
+        default: Date.now,
+    },
 };
 
 module.exports = SchemaTypes;

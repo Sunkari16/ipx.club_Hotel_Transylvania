@@ -6,7 +6,7 @@ const EquipmentInAreaRouter = express.Router();
 
 EquipmentInAreaRouter.get('/', forwardRequest(EquipmentInAreaController.getALL));
 EquipmentInAreaRouter.post('/', forwardRequest(EquipmentInAreaController.addOne));
-EquipmentInAreaRouter.get('/:id', forwardRequest(EquipmentInAreaController.getOneById));
+EquipmentInAreaRouter.get('/:id', forwardRequest(EquipmentInAreaController.getOne));
 EquipmentInAreaRouter.put('/:id', forwardRequest(EquipmentInAreaController.updateOne));
 EquipmentInAreaRouter.delete('/:id', forwardRequest(EquipmentInAreaController.deleteOne));
 

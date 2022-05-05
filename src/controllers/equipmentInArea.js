@@ -11,7 +11,7 @@ EquipmentInAreaController.updateOne = async (req, res) => {
     res.sendFormatted(await EquipmentInAreaService.updateOne(req.params.id, req.body));
 };
 
-EquipmentInAreaController.getOneById = async (req, res) => {
+EquipmentInAreaController.getOne = async (req, res) => {
     res.sendFormatted(await EquipmentInAreaService.getOneById(req.params.id));
 };
 

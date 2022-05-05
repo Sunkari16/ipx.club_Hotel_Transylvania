@@ -9,7 +9,7 @@ AreaController.updateOne = async (req, res) => {
     res.sendFormatted(await AreasService.updateAreaByCode(req.params.code, req.body));
 };
 
-AreaController.getOneById = async (req, res) => {
+AreaController.getOne = async (req, res) => {
     res.sendFormatted(await AreasService.getAreaByCode(req.params.code));
 };
 

@@ -1,9 +1,13 @@
 const AreaSchema = require('./schemas/area');
-const EquipmentsInArea = require('./schemas/equipmentsInArea');
+const EquipmentInAreaSchema = require('./schemas/equipmentsInArea');
+const SensorSchema = require('./schemas/sensors');
+const sensorInAreaSchema = require('./schemas/sensorInArea');
 const ModelNames = require('../constants/model-names');
 const DB = require('./db');
 
 module.exports = {
     [ModelNames.AREA]: DB.model(ModelNames.AREA, AreaSchema),
-    [ModelNames.EQUIPMENT_IN_AREA]: DB.model(ModelNames.EQUIPMENT_IN_AREA, EquipmentsInArea),
+    [ModelNames.EQUIPMENT_IN_AREA]: DB.model(ModelNames.EQUIPMENT_IN_AREA, EquipmentInAreaSchema),
+    [ModelNames.SENSORS]: DB.model(ModelNames.SENSORS, SensorSchema),
+    [ModelNames.SENSORS_IN_AREA]: DB.model(ModelNames.SENSORS_IN_AREA, sensorInAreaSchema),
 };
