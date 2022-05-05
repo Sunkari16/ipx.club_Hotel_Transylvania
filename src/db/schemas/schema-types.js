@@ -32,6 +32,16 @@ const SchemaTypes = {
         type: Number,
         required: true,
     },
+    MANDATORY_ENUM: (values) => ({
+        type: String,
+        required: true,
+        enum: values,
+    }),
+    OPTIONAL_ENUM: (values) => ({
+        type: String,
+        required: false,
+        enum: values,
+    }),
 };
 
 module.exports = SchemaTypes;

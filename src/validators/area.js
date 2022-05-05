@@ -20,7 +20,6 @@ function validateAutoTurnOffTTLInSec(autoTurnOffTTLInSec) {
 
 const validateAddArea = (area) => {
     const { code, maxConsumptionUnits, autoTurnOffTTLInSec } = area;
-
     validateAreaCode(code);
     validateMaxConsumptionUnits(maxConsumptionUnits);
     validateAutoTurnOffTTLInSec(autoTurnOffTTLInSec);
