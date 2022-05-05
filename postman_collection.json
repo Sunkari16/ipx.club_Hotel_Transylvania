@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "604b94f9-5b28-45fd-83a6-cc8b376a8950",
+		"name": "HT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Setup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"noOfFloors\": 3,\n    \"noOfMainCorridors\": 2,\n    \"noOfSubCorridors\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/setup",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"setup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reset",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/reset",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{host}}/sensor/{{sensorId}}/signal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/sensor/{{sensorId}}/signal",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"sensor",
+						"{{sensorId}}",
+						"signal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{host}}/sensor/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/sensor/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"sensor",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{host}}/SIA/?sensorCode={{sensorId}}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/SIA/?sensorCode={{sensorId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"SIA",
+						""
+					],
+					"query": [
+						{
+							"key": "sensorCode",
+							"value": "{{sensorId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{host}}/monitor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/monitor",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"monitor"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "host"
+		},
+		{
+			"key": "sensorId",
+			"value": "ptyym2DZj"
+		}
+	]
+}
