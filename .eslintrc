@@ -1,0 +1,45 @@
+{
+  "extends": "airbnb-base",
+  "rules": {
+    "max-len": [
+      "error",
+      {
+        "code": 100,
+        "ignoreUrls": true
+      }
+    ],
+    "indent": [
+      "error",
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "no-underscore-dangle": "off",
+    "padded-blocks": [
+      "error",
+      {
+        "classes": "always",
+        "blocks": "never"
+      }
+    ],
+    "class-methods-use-this": "off",
+    "curly": 2
+  },
+  "overrides": [
+    {
+      "files": [
+        "./src/constants/*",
+        "src/commons/db/models/*",
+        "*.json",
+        "config.js"
+      ],
+      "rules": {
+        "sort-keys-fix/sort-keys-fix": "error"
+      }
+    }
+  ],
+  "plugins": [
+    "sort-keys-fix"
+  ]
+}

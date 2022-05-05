@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+
+  api:
+    build: ./
+    command: npx pm2 start ht.pm2.config.js --no-daemon
+    working_dir: /app
+    volumes:
+    - ./:/app/
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:4.2.2-bionic
+    volumes:
+      - ../.data/mongo:/data/db
+    ports:
+      - "27017:27017"
