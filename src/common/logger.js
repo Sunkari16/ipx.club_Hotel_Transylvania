@@ -1,4 +1,5 @@
 const Winston = require('winston');
+const Config = require('../../config');
 
 const LOGGER = (scope) => {
     const transports = [
@@ -22,4 +23,4 @@ const LOGGER = (scope) => {
     });
 };
 
-module.exports = LOGGER;
+module.exports = LOGGER(Config.appName);

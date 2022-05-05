@@ -7,10 +7,10 @@ const isDevelopment = ENVIRONMENT === Envs.development;
 const APP_NAME = process.env.APP_NAME || AppConstants.NAME;
 
 module.exports = {
-    app_name: APP_NAME,
+    appName: APP_NAME,
     environment: ENVIRONMENT,
-    is_development: isDevelopment,
-    is_production: isProduction,
+    isDevelopment,
+    isProduction,
     log: {
         level: process.env.LOG_LEVEL || (isProduction ? 'debug' : 'silly'),
         name: 'ld-api',
