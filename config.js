@@ -8,6 +8,7 @@ const APP_NAME = process.env.APP_NAME || AppConstants.NAME;
 
 module.exports = {
     appName: APP_NAME,
+    defaultOffTTL: 60 * 1000,
     environment: ENVIRONMENT,
     isDevelopment,
     isProduction,

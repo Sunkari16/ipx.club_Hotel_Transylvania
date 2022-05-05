@@ -5,6 +5,7 @@ const logger = require('morgan');
 const { HTTPErrorCodes, HTTPError } = require('./src/common/http-error');
 const routes = require('./src/routes');
 const errorHandler = require('./src/middlewares/error-handler');
+require('./src/common/redis-scheduler');
 
 const app = express();
 

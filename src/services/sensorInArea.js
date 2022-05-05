@@ -16,7 +16,6 @@ SensorInAreaService.updateOne = async (id, { sensorCode }) => {
     throw new HTTPError(HTTPErrorCodes.BAD_REQUEST, 'Invalid update body');
 };
 
-SensorInAreaService.getOneByCode = async (code) => SensorInAreaModel.findById(code).lean();
 SensorInAreaService.deleteOne = async (id) => SensorInAreaModel.deleteOne({ _id: id });
 SensorInAreaService.getALL = async ({ query = {}, page, limit }) => SensorInAreaModel
     .paginate(query, { page, limit, lean: true });

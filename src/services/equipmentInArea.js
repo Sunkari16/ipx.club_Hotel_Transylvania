@@ -36,4 +36,13 @@ EquipmentInAreaService.deleteOne = async (id) => EquipmentInAreaModel.deleteOne(
 EquipmentInAreaService.getALL = async ({ query = {}, page, limit }) => EquipmentInAreaModel
     .paginate(query, { page, limit, lean: true });
 
+EquipmentInAreaService.bulkUpdateByID = async (ids, { status }) => {
+    if (status) {
+        validateEquipmentStatus(status);
+        return EquipmentInAreaModel
+            .update({ _id: { $in: ids } }, { $set: { status } }, { multi: true });
+    }
+    throw new HTTPError(HTTPErrorCodes.BAD_REQUEST, 'Invalid status');
+};
+
 module.exports = EquipmentInAreaService;

@@ -22,3 +22,9 @@ services:
       - ../.data/mongo:/data/db
     ports:
       - "27017:27017"
+
+  redis:
+    image: redis:6.2.7-alpine
+    ports:
+      - "6379:6379"
+
