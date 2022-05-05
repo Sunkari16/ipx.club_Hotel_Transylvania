@@ -6,6 +6,6 @@ const SetupRouter = express.Router({ mergeParams: true });
 
 SetupRouter.post('/setup', forwardRequest(SetupControllerController.setup));
 SetupRouter.post('/reset', forwardRequest(SetupControllerController.reset));
-SetupRouter.post('/monitor', forwardRequest(SetupControllerController.monitor));
+SetupRouter.get('/monitor', forwardRequest(SetupControllerController.monitor));
 
 module.exports = SetupRouter;

@@ -7,10 +7,12 @@ const SensorService = require('./sensor');
 const SensorInAreaService = require('./sensorInArea');
 
 const SetupService = {};
+
 async function addSensor(area) {
     const sensor = await SensorService.addOne({});
     await SensorInAreaService.addOne({ areaCode: area.code, sensorCode: sensor.code });
 }
+
 async function addAreas(
     noOfFloors,
     noOfMainCorridors,
@@ -131,6 +133,31 @@ SetupService.reset = async () => {
     ]);
 };
 
-SetupService.monitor = async () => {};
+SetupService.monitor = async () => {
+    const areas = await AreasService.getALL({ limit: -1 });
+    const equipmentsInAreas = (await EquipmentInAreaService.getALL({ limit: -1 }))
+        .reduce((res, e) => {
+            res[e.areaCode] = res[e.areaCode] || [];
+            res[e.areaCode].push(e);
+            return res;
+        }, {});
+
+    const result = {};
+    for (const a of areas) {
+        result[a.floor] = result[a.floor] || [];
+        result[a.floor].push({
+            floor: a.floor,
+            area: a.areaType,
+            areaCode: a.code,
+            equipments: (equipmentsInAreas[a.code] || [])
+                .map((e) => ({
+                    equipment: e.equipmentCode,
+                    id: e._id,
+                    status: e.status,
+                })),
+        });
+    }
+    return result;
+};
 
 module.exports = SetupService;

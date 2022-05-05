@@ -47,8 +47,15 @@ AreaService.updateAreaByCode = async (code, updates) => {
 
 AreaService.deleteAreaByCode = async (code) => AreaModel.deleteOne({ code });
 
-AreaService.getALL = async ({ query = {}, page = 1, limit = 20 }) => AreaModel
-    .paginate(query, { page, limit, lean: true });
+AreaService.getALL = async ({ query = {}, page = 1, limit = 20 }) => {
+    if (limit >= 0) {
+        return AreaModel
+            .paginate(query, { page, limit, lean: true });
+    }
+    return AreaModel
+        .find(query);
+};
 
 AreaService.deleteAll = async () => AreaModel.deleteMany({});
+
 module.exports = AreaService;

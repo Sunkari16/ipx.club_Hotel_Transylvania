@@ -33,8 +33,14 @@ EquipmentInAreaService.getUnitsConsumedByEquipment = (equipmentCode) => (Equipme
 
 EquipmentInAreaService.deleteOne = async (id) => EquipmentInAreaModel.deleteOne({ _id: id });
 
-EquipmentInAreaService.getALL = async ({ query = {}, page = 1, limit = 20 }) => EquipmentInAreaModel
-    .paginate(query, { page, limit, lean: true });
+EquipmentInAreaService.getALL = async ({ query = {}, page = 1, limit = 20 }) => {
+    if (limit >= 0) {
+        return EquipmentInAreaModel
+            .paginate(query, { page, limit, lean: true });
+    }
+    return EquipmentInAreaModel
+        .find(query);
+};
 
 EquipmentInAreaService.bulkUpdateByID = async (ids, { status }) => {
     if (status) {
