@@ -9,7 +9,7 @@ const EquipmentInAreaSchema = new Schema({
     status: SchemaTypes.MANDATORY_ENUM(Object.values(Object.values(EquipmentCodes))),
 });
 if (isDevelopment) {
-    EquipmentInAreaSchema.index({ code: 1 });
+    EquipmentInAreaSchema.index({ areaCode: 1 });
 }
 
 module.exports = EquipmentInAreaSchema;

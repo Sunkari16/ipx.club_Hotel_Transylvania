@@ -1,36 +1,39 @@
 const _ = require('lodash');
 const ModelNames = require('../constants/model-names');
-const { validateEquipmentInArea, validateEquipmentStatus } = require('../validators/equipmentInArea');
-const { EquipmentStatus, Equipments } = require('../constants/equimpents');
+const {
+    validateEquipmentInArea,
+    validateEquipmentStatus,
+} = require('../validators/equipmentInArea');
+const { Equipments } = require('../constants/equimpents');
+const { HTTPError, HTTPErrorCodes } = require('../common/http-error');
 const EquipmentInAreaModel = require('../db')[ModelNames.EQUIPMENT_IN_AREA];
 
-const addOne = async (equipmentInArea) => {
+const EquipmentInAreaService = {};
+EquipmentInAreaService.addOne = async (equipmentInArea) => {
     validateEquipmentInArea(equipmentInArea);
     const EquipmentInArea = new EquipmentInAreaModel(equipmentInArea);
     return EquipmentInArea.save();
 };
+EquipmentInAreaService.getOneById = async (id) => EquipmentInAreaModel.findById(id).lean();
 
-const getEquipmentsInArea = async (areaCode) => EquipmentInAreaModel.find({ areaCode }).lean();
+EquipmentInAreaService.getEquipmentsInArea = async (areaCode) => EquipmentInAreaModel
+    .find({ areaCode }).lean();
 
-const turnOnEquipmentInArea = async (id, status) => {
-    validateEquipmentStatus(status);
-    return EquipmentInAreaModel
-        .updateOne({ _id: id }, { $set: { status } });
+EquipmentInAreaService.updateOne = async (id, { status }) => {
+    if (status) {
+        validateEquipmentStatus(status);
+        return EquipmentInAreaModel
+            .updateOne({ _id: id }, { $set: { status } });
+    }
+    throw new HTTPError(HTTPErrorCodes.BAD_REQUEST, 'Invalid update body');
 };
 
-const turnOffEquipmentInArea = async (id) => EquipmentInAreaModel
-    .updateOne({ _id: id }, { $set: { status: EquipmentStatus.OFF } });
-
-const getUnitsConsumedByEquipment = (equipmentCode) => (Equipments[equipmentCode]
+EquipmentInAreaService.getUnitsConsumedByEquipment = (equipmentCode) => (Equipments[equipmentCode]
     ? Equipments[equipmentCode].noOfUnits : undefined);
 
-const deleteOne = async (id) => EquipmentInAreaModel.deleteOne({ _id: id });
+EquipmentInAreaService.deleteOne = async (id) => EquipmentInAreaModel.deleteOne({ _id: id });
 
-module.exports = {
-    addOne,
-    deleteOne,
-    getEquipmentsInArea,
-    turnOnEquipmentInArea,
-    turnOffEquipmentInArea,
-    getUnitsConsumedByEquipment,
-};
+EquipmentInAreaService.getALL = async ({ query = {}, page, limit }) => EquipmentInAreaModel
+    .paginate(query, { page, limit, lean: true });
+
+module.exports = EquipmentInAreaService;

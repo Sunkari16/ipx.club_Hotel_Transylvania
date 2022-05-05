@@ -3,15 +3,17 @@ const ModelNames = require('../constants/model-names');
 const { validateAddArea } = require('../validators/area');
 const AreaModel = require('../db')[ModelNames.AREA];
 
-const addOne = async (area) => {
+const AreaService = {
+};
+AreaService.addOne = async (area) => {
     validateAddArea(area);
     const areaModel = new AreaModel(area);
     return areaModel.save();
 };
 
-const getAreaByCode = async (code) => AreaModel.findOne({ code }).lean();
+AreaService.getAreaByCode = async (code) => AreaModel.findOne({ code }).lean();
 
-const updateAreaByCode = async (code, updates) => {
+AreaService.updateAreaByCode = async (code, updates) => {
     const area = AreaModel.findOne({ code });
     if (_.has(updates, 'maxConsumptionUnits')) {
         area.maxConsumptionUnits = updates.maxConsumptionUnits;
@@ -23,9 +25,9 @@ const updateAreaByCode = async (code, updates) => {
     return area.save();
 };
 
-const getAreas = async ({ query = {}, page, limit }) => AreaModel
+AreaService.deleteAreaByCode = async (code) => AreaModel.deleteOne({ code });
+
+AreaService.getALL = async ({ query = {}, page, limit }) => AreaModel
     .paginate(query, { page, limit, lean: true });
 
-module.exports = {
-    addOne, getAreaByCode, updateAreaByCode, getAreas,
-};
+module.exports = AreaService;

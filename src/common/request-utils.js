@@ -5,4 +5,11 @@ const forwardRequest = (handler) => async (req, res, next) => {
         next(e);
     }
 };
-module.exports = { forwardRequest };
+
+function parseGetFilters(req) {
+    const { page } = req.query;
+    delete req.query.page;
+    const query = { ...req.query };
+    return { query, page };
+}
+module.exports = { forwardRequest, parseGetFilters };

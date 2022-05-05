@@ -1,13 +1,30 @@
-const { getAreas } = require('../services/area');
+const AreasService = require('../services/area');
 
-const getAll = async (req, res) => {
+const AreaController = { };
+AreaController.getAddOne = async (req, res) => {
+    res.sendFormatted(await AreasService.addOne(req.body));
+};
+
+AreaController.updateOne = async (req, res) => {
+    res.sendFormatted(await AreasService.updateAreaByCode(req.params.code, req.body));
+};
+
+AreaController.getOneById = async (req, res) => {
+    res.sendFormatted(await AreasService.getAreaByCode(req.params.code));
+};
+
+AreaController.deleteOne = async (req, res) => {
+    res.sendFormatted(await AreasService.deleteAreaByCode(req.params.code));
+};
+
+AreaController.getALL = async (req, res) => {
     const {
         docs,
         total,
         limit,
         page,
         pages,
-    } = await getAreas({ page: req.query.page });
+    } = await AreasService.getALL({ page: req.query.page });
     res.sendFormatted({
         data: docs,
         meta: {
@@ -15,5 +32,5 @@ const getAll = async (req, res) => {
         },
     });
 };
-const AreaController = { getAll };
+
 module.exports = AreaController;
