@@ -5,6 +5,7 @@ const logger = require('morgan');
 const LOGGER = require('./src/common/logger');
 const { HTTPErrorCodes, HTTPError } = require('./src/common/http-error');
 const { isDevelopment } = require('./config');
+const routes = require('./src/routes');
 
 const app = express();
 
@@ -13,7 +14,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use((req, res, next) => {
+    res.sendOk = () => {
+        res.send({});
+    };
+    res.sendFormatted = (data = {}, { meta, errorCode, message } = {}) => {
+        res.send({
+            data, meta, code: errorCode, message,
+        });
+    };
+    next();
+});
 
+// Add routing
+routes(app);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
     next(new HTTPError(
