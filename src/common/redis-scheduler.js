@@ -4,11 +4,11 @@ const LOGGER = require('./logger');
 const scheduler = new Scheduler({ host: 'redis', port: 6379 });
 
 function scheduleExpiryCallback(key, expiry, cb) {
-    scheduler.cancel({ key: 'test' }, () => {
+    scheduler.cancel({ key }, () => {
         console.log('canceled');
         scheduler.schedule({
             key,
-            expire: 1000,
+            expire: expiry,
             // eslint-disable-next-line no-shadow
             handler: cb,
         }, (err) => {

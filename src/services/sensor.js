@@ -15,7 +15,7 @@ SensorService.updateOneByCode = async (code, { lastSignalReceivedAt }) => {
     }
     throw new HTTPError(HTTPErrorCodes.BAD_REQUEST, 'Invalid update');
 };
-SensorService.getALL = async ({ query = {}, page, limit }) => SensorModel
+SensorService.getALL = async ({ query = {}, page = 1, limit = 20 }) => SensorModel
     .paginate(query, { page, limit, lean: true });
-
+SensorService.deleteAll = async () => SensorModel.deleteMany({});
 module.exports = SensorService;

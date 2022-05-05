@@ -17,7 +17,13 @@ SensorInAreaService.updateOne = async (id, { sensorCode }) => {
 };
 
 SensorInAreaService.deleteOne = async (id) => SensorInAreaModel.deleteOne({ _id: id });
-SensorInAreaService.getALL = async ({ query = {}, page, limit }) => SensorInAreaModel
+
+SensorInAreaService.getALL = async ({ query = {}, page = 1, limit = 20 }) => SensorInAreaModel
     .paginate(query, { page, limit, lean: true });
+
+SensorInAreaService.deleteAll = async () => SensorInAreaModel.deleteMany({});
+
+SensorInAreaService.getOneBySensorCode = async (sensorCode) => SensorInAreaModel
+    .findOne({ sensorCode }).lean();
 
 module.exports = SensorInAreaService;

@@ -3,13 +3,14 @@ const EquipmentInAreaService = require('./equipmentInArea');
 const { EquipmentCodes, EquipmentStatus } = require('../constants/equimpents');
 const { scheduleExpiryCallback } = require('../common/redis-scheduler');
 const { defaultOffTTL } = require('../../config');
+const LOGGER = require('../common/logger');
 
 const EquipmentControllerService = {};
 const turnOnLightsInArea = async (sensorCode) => {
     // start a timer
-    const sensorInArea = await SensorInAreaService.getOneByCode(sensorCode);
+    const { areaCode } = await SensorInAreaService.getOneBySensorCode(sensorCode);
     const equipmentsInArea = await EquipmentInAreaService
-        .getEquipmentsInArea(sensorInArea.areaCode);
+        .getEquipmentsInArea(areaCode);
     const equipmentsToTurnOff = [];
     const equipmentsToTurnOn = [];
     // eslint-disable-next-line no-plusplus
@@ -29,7 +30,7 @@ const turnOnLightsInArea = async (sensorCode) => {
 
 const turnOffLightsInArea = async (sensorCode) => {
     // start a timer
-    const sensorInArea = await SensorInAreaService.getOneByCode(sensorCode);
+    const sensorInArea = await SensorInAreaService.getOneBySensorCode(sensorCode);
     const equipmentsInArea = await EquipmentInAreaService
         .getEquipmentsInArea(sensorInArea.areaCode);
     const equipmentsToTurnOff = [];
@@ -51,7 +52,11 @@ const turnOffLightsInArea = async (sensorCode) => {
 
 EquipmentControllerService.handleMotionDetected = async (sensorCode) => {
     await turnOnLightsInArea(sensorCode);
-    scheduleExpiryCallback(sensorCode, defaultOffTTL, () => {
-        turnOffLightsInArea(sensorCode);
+    LOGGER.info(` Setting expiry trigger for sensorCode ${sensorCode} , ttl ${defaultOffTTL}`);
+    scheduleExpiryCallback(sensorCode, defaultOffTTL, (err, ttlExpiredSensorCode) => {
+        LOGGER.info(` Received expiry trigger for sensorCode ${ttlExpiredSensorCode}`);
+        turnOffLightsInArea(ttlExpiredSensorCode);
     });
 };
+
+module.exports = EquipmentControllerService;

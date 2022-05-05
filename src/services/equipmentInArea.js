@@ -9,9 +9,9 @@ const { HTTPError, HTTPErrorCodes } = require('../common/http-error');
 const EquipmentInAreaModel = require('../db')[ModelNames.EQUIPMENT_IN_AREA];
 
 const EquipmentInAreaService = {};
-EquipmentInAreaService.addOne = async (equipmentInArea) => {
-    validateEquipmentInArea(equipmentInArea);
-    const EquipmentInArea = new EquipmentInAreaModel(equipmentInArea);
+EquipmentInAreaService.addOne = async ({ areaCode, equipmentCode, status }) => {
+    validateEquipmentInArea({ areaCode, equipmentCode, status });
+    const EquipmentInArea = new EquipmentInAreaModel({ areaCode, equipmentCode, status });
     return EquipmentInArea.save();
 };
 EquipmentInAreaService.getOneById = async (id) => EquipmentInAreaModel.findById(id).lean();
@@ -33,16 +33,17 @@ EquipmentInAreaService.getUnitsConsumedByEquipment = (equipmentCode) => (Equipme
 
 EquipmentInAreaService.deleteOne = async (id) => EquipmentInAreaModel.deleteOne({ _id: id });
 
-EquipmentInAreaService.getALL = async ({ query = {}, page, limit }) => EquipmentInAreaModel
+EquipmentInAreaService.getALL = async ({ query = {}, page = 1, limit = 20 }) => EquipmentInAreaModel
     .paginate(query, { page, limit, lean: true });
 
 EquipmentInAreaService.bulkUpdateByID = async (ids, { status }) => {
     if (status) {
         validateEquipmentStatus(status);
         return EquipmentInAreaModel
-            .update({ _id: { $in: ids } }, { $set: { status } }, { multi: true });
+            .updateMany({ _id: { $in: ids } }, { $set: { status } });
     }
     throw new HTTPError(HTTPErrorCodes.BAD_REQUEST, 'Invalid status');
 };
 
+EquipmentInAreaService.deleteAll = async () => EquipmentInAreaModel.deleteMany({});
 module.exports = EquipmentInAreaService;

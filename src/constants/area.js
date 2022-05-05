@@ -1,5 +1,5 @@
-const AreaTypes = {
+const AREA_TYPES = {
     MAIN_CORRIDOR: 'MAIN_CORRIDOR',
     SUB_CORRIDOR: 'SUB_CORRIDOR',
 };
-module.exports = { AreaTypes };
+module.exports = { AREA_TYPES };
